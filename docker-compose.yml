@@ -1,0 +1,59 @@
+volumes:
+  logs:
+    driver: local
+  db_data: # Volume para persistência do banco de dados
+    driver: local
+
+x-common-variables: &common-variables
+  TZ: America/Sao_Paulo
+
+services:
+  db:
+    container_name: app_db
+    image: mariadb:10.4
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      <<: *common-variables
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: app_database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: app_password
+    ports:
+      - "3306:3306"
+    networks:
+      - app_network
+
+  phpmyadmin:
+    container_name: app_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      <<: *common-variables
+      PMA_HOST: app_db
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app:delegated
+    environment:
+      <<: *common-variables
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+networks:
+  app_network:
