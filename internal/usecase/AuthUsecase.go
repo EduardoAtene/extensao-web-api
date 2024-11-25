@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"time"
-	"your-project/internal/domain/models"
-	"your-project/internal/repository"
-	"your-project/internal/utils"
 
+	"github.com/EduardoAtene/extensao-web-api/internal/domain/models"
+	"github.com/EduardoAtene/extensao-web-api/internal/repository"
+	"github.com/EduardoAtene/extensao-web-api/internal/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )

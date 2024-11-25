@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"your-project/internal/domain/models"
+	"github.com/EduardoAtene/extensao-web-api/internal/domain/models"
 
 	"gorm.io/gorm"
 )

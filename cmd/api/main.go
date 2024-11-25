@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
-	"your-project/internal/config"
-	"your-project/internal/handlers"
-	"your-project/internal/middleware"
 
+	"github.com/EduardoAtene/extensao-web-api/internal/config"
+	handlers "github.com/EduardoAtene/extensao-web-api/internal/handler"
+	middleware "github.com/EduardoAtene/extensao-web-api/internal/middlaware"
 	"github.com/gorilla/mux"
 )
 
@@ -14,14 +14,20 @@ func main() {
 	db := config.SetupDB()
 	r := mux.NewRouter()
 
-	// Handlers
 	authHandler := handlers.NewAuthHandler(db)
+	discardHandler := handlers.NewDiscardHandler(db)
 
 	// Rotas
 	r.HandleFunc("/auth/register", authHandler.Register).Methods("POST")
 	r.HandleFunc("/auth/login", authHandler.Login).Methods("POST")
 
-	// Middleware
+	// Rotas que precisam de login
+	protected := r.PathPrefix("/api").Subrouter()
+	protected.Use(middleware.AuthMiddleware)
+	protected.HandleFunc("/discard", discardHandler.CreateDiscard).Methods("POST")
+	protected.HandleFunc("/rewards", discardHandler.GetUserRewards).Methods("GET")
+
+	// // Middleware
 	handler := middleware.CORS(r)
 
 	log.Println("Server running on port 3000")

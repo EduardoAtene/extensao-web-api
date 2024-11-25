@@ -1,20 +1,29 @@
-# Use uma imagem base com Node.js
-FROM node:18-alpine
+# Etapa 1: Construção
+FROM golang:1.23-alpine AS builder
 
-# Defina o diretório de trabalho dentro do contêiner
+# Definindo o diretório de trabalho
 WORKDIR /app
 
-# Copie os arquivos de configuração para o contêiner
-COPY package.json package-lock.json ./
+# Copiar o arquivo go.mod e go.sum para o contêiner
+COPY go.mod go.sum ./
 
-# Instale as dependências
-RUN npm install
+# Baixar as dependências (go mod tidy)
+RUN go mod tidy
 
-# Copie o restante do código do projeto
+# Copiar o restante do código-fonte para o contêiner
 COPY . .
 
-# Exponha a porta usada pelo Vite
-EXPOSE 5173
+# Compilar o binário da aplicação
+RUN go build -o /tmp/main ./cmd/api
 
-# Comando padrão para rodar o servidor de desenvolvimento
-CMD ["npm", "run", "dev"]
+# Etapa 2: Execução
+FROM alpine:latest
+
+# Definindo o diretório de trabalho no contêiner final
+WORKDIR /root/
+
+# Copiar o binário compilado da etapa de construção
+COPY --from=builder /tmp/main /tmp/main
+
+# Comando para rodar o binário
+CMD ["/tmp/main"]
