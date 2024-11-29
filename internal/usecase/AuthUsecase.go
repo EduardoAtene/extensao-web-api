@@ -21,6 +21,7 @@ func NewAuthUseCase(db *gorm.DB) *AuthUseCase {
 }
 
 type RegisterRequest struct {
+	Name      string `json:"name"`
 	Email     string `json:"email"`
 	Password  string `json:"password"`
 	BirthDate string `json:"birth_date"`
@@ -44,6 +45,7 @@ func (uc *AuthUseCase) Register(req RegisterRequest) error {
 	}
 
 	user := models.User{
+		Name:      req.Name,
 		Email:     req.Email,
 		Password:  string(hashedPassword),
 		BirthDate: birthDate,

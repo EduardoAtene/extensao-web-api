@@ -16,6 +16,7 @@ func main() {
 
 	authHandler := handlers.NewAuthHandler(db)
 	discardHandler := handlers.NewDiscardHandler(db)
+	userHandler := handlers.NewUserHandler(db)
 
 	// Rotas
 	r.HandleFunc("/auth/register", authHandler.Register).Methods("POST")
@@ -26,6 +27,7 @@ func main() {
 	protected.Use(middleware.AuthMiddleware)
 	protected.HandleFunc("/discard", discardHandler.CreateDiscard).Methods("POST")
 	protected.HandleFunc("/rewards", discardHandler.GetUserRewards).Methods("GET")
+	protected.HandleFunc("/user", userHandler.GetUserDetails).Methods("GET")
 
 	// // Middleware
 	handler := middleware.CORS(r)

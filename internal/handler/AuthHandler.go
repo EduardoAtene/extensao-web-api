@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/EduardoAtene/extensao-web-api/internal/usecase"
@@ -25,6 +26,7 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, utils.GenerateErrorResponse("Erro ao processar a requisição", err.Error()), http.StatusBadRequest)
 		return
 	}
+	fmt.Printf("Request: %+v", req)
 
 	if err := h.authUseCase.Register(req); err != nil {
 		http.Error(w, utils.GenerateErrorResponse("Erro ao criar usuário", err.Error()), http.StatusInternalServerError)
