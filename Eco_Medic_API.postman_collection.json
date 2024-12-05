@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "9f98b1af-208e-4bd9-93ae-203723e06c6b",
+		"name": "Extensao API",
+		"description": "Coleção de APIs da extensão com endpoints para autenticação, descarte e recompensas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36872980",
+		"_collection_link": ""
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"email\": \"pedro@gmail.com\", \n    \"password\": \"senha123\",\n    \"birth_date\": \"2002-12-13\",\n    \"phone\": \"(31) 9 92051504\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"eduardoatenesilva@gmail.com\", \n    \"password\": \"senha123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User - Pendente",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "Create Discard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2MTYzNjUsInVzZXJfaWQiOjF9.yesv-m-nzgUt5HKlD4K_HSelaceGI5gMJ7jUc2hDmPU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>",
+								"description": "Substitua <token> pelo token gerado ao fazer login."
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"city\": \"São Paulo\",\n  \"location\": \"Av. Paulista, 1000\",\n  \"date\": \"2024-11-25T10:00:00Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/discard",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"discard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Rewards",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2MTUwMTMsInVzZXJfaWQiOjF9.h0WaEwnNW7HtvRwdt8S79bqmjFBFkVmKn-g4R2gI2iU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>",
+								"description": "Substitua <token> pelo token gerado ao fazer login."
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/rewards",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"rewards"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
